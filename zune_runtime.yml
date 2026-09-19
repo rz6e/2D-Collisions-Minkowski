@@ -1,0 +1,6 @@
+# Zune API types are checked by Luau LSP using Zune's generated definitions.
+lua_versions:
+  - luau
+globals:
+  zune:
+    any: true
