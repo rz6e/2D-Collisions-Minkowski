@@ -33,14 +33,31 @@ end
 
 function Shape.PointCloud(self: ShapeProps, OtherShape: ShapeProps)
     local PointCloud = {}
+
+    local MinX = math.huge
+    local MaxX = -math.huge
+    local MinY = math.huge
+    local MaxY = -math.huge
     
     for _, Vertex in self.Vertices do
         for _, v in OtherShape.Vertices do
-            PointCloud[#PointCloud + 1] = Vertex + v
+            local Point = Vertex + v
+
+            PointCloud[#PointCloud + 1] = Point
+
+            MinX = math.min(MinX, Point.X)
+            MaxX = math.max(MaxX, Point.X)
+            MinY = math.min(MinY, Point.Y)
+            MaxY = math.max(MaxY, Point.Y)
         end
     end
 
-    return PointCloud
+    local Bounds = {
+        Min = vector.create(MinX, MinY, 0),
+        Max = vector.create(MaxX, MaxY, 0)
+    }
+
+    return PointCloud, Bounds
 end
 
 function Shape.SetColor(self: ShapeProps, Color: raylib.Color)
